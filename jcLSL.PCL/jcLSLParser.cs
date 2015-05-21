@@ -1,9 +1,19 @@
-﻿using System;
-
-namespace jcLSL.PCL {
+﻿namespace jcLSL.PCL {
     public class jcLSLParser {
-        public string Run() {
-            return String.Empty;
+        public delegate void MergeFieldEventHandler(object sender, MergeFieldArgs args);
+
+        public event MergeFieldEventHandler OnMergeField;
+
+        protected virtual void OnInternalMergeField(MergeFieldArgs e) {
+            OnMergeField?.Invoke(this, e);
+        }
+
+        public string Run(string stringToParse) {
+            var fieldHandler = new MergeFieldArgs(stringToParse);
+
+            OnInternalMergeField(fieldHandler);
+
+            return fieldHandler.GetMergedString();
         }
     }
 }
