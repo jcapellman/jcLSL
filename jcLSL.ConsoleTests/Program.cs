@@ -1,25 +1,50 @@
-﻿using System;
+﻿using System    ;
 using System.Collections.Generic;
 using System.Globalization;
 
 using jcLSL.PCL;
+using jcLSL.PCL.MergeFieldArgs;
 
 namespace jcLSL.ConsoleTests {
     class Program {
         private const string TEST_STRING = "Hello {Name} This is a test of awesomness on {CurrentDate}.";
-        
-        static void Main(string[] args) {
-            var parser = new jcLSLParser();
 
-            parser.OnMergeField += Parser_OnMergeField;
+        public class TESTCLASS {
+            [jcLSLMember]
+            public string Name { get; set; }
+
+            [jcLSLMember]
+            public DateTime CurrentDate { get; set; }
+        }
+
+        static void Main(string[] args) {
+            var parser = new jcLSLStringParser();
+
+            parser.OnStringMergeField += Parser_OnMergeField;
 
             Console.WriteLine(
                 $"Original: {TEST_STRING} {System.Environment.NewLine} Parsed: {parser.Run(TEST_STRING)} {System.Environment.NewLine}");
 
+            var testClass = new TESTCLASS();
+
+            testClass.CurrentDate = DateTime.Now;
+            testClass.Name = "Testing";
+
+            var gParser = new jcLSLGenericParser<TESTCLASS>();
+
+            gParser.OnObjectMergeField += GParser_OnObjectMergeField;
+            
+            Console.WriteLine(
+                $"Original: {TEST_STRING} {System.Environment.NewLine} Parsed: {gParser.Run(TEST_STRING, testClass)} {System.Environment.NewLine}");
+
             Console.ReadKey();
         }
 
-        private static void Parser_OnMergeField(object sender, MergeFieldArgs args) {
+        private static void GParser_OnObjectMergeField(object sender, jcLSLObjectMergeFieldArgs<TESTCLASS> args) {
+            args.MergeReplace();
+        }
+
+        private static void Parser_OnMergeField(object sender, jcLSLStringMergeFieldArgs args) {
             var MergeFields = new List<string>();
 
             MergeFields.Add("Name");

@@ -37,8 +37,13 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="jcLSLParser.cs" />
-    <Compile Include="MergeFieldArgs.cs" />
+    <Compile Include="jcLSLBaseParser.cs" />
+    <Compile Include="jcLSLStringParser.cs" />
+    <Compile Include="MergeFieldArgs\jcLSLBaseMergeFieldArgs.cs" />
+    <Compile Include="jcLSLMemberAttribute.cs" />
+    <Compile Include="jcLSLGenericParser.cs" />
+    <Compile Include="MergeFieldArgs\jcLSLObjectMergeFieldArgs.cs" />
+    <Compile Include="MergeFieldArgs\jcLSLStringMergeFieldArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
