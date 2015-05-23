@@ -10,6 +10,10 @@ namespace jcLSL.PCL.MergeFieldArgs {
         }
 
         public void MergeReplace() {
+            if (IsNull) {
+                return;
+            }
+
             var properties = _obj.GetType().GetRuntimeProperties();
 
             foreach (var prop in properties) {

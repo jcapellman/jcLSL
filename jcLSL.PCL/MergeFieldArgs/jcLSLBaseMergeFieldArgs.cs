@@ -7,6 +7,8 @@ namespace jcLSL.PCL.MergeFieldArgs {
 
         internal string _mergeFieldString { get; set; }
 
+        internal bool IsNull => string.IsNullOrWhiteSpace(_mergeFieldString);
+
         internal string GetMergedString() {
             return _mergeFieldString;
         }
