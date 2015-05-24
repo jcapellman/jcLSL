@@ -9,9 +9,9 @@ namespace jcLSL.PCL {
         protected virtual void OnInternalObjectMergeField(jcLSLObjectMergeFieldArgs<T> e) {
             OnObjectMergeField?.Invoke(this, e);
         }
-
-        public string Run(string stringToParse, T obj) {
-            var fieldHandler = new jcLSLObjectMergeFieldArgs<T>(stringToParse, obj);
+        
+        public string Run(string stringToParse, T obj, bool parseOnlyDecoratedProperties = true) {
+            var fieldHandler = new jcLSLObjectMergeFieldArgs<T>(stringToParse, obj, parseOnlyDecoratedProperties);
 
             if (OnObjectMergeField == null) {
                 fieldHandler.MergeReplace();
