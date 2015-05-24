@@ -13,7 +13,11 @@ namespace jcLSL.PCL {
         public string Run(string stringToParse, T obj) {
             var fieldHandler = new jcLSLObjectMergeFieldArgs<T>(stringToParse, obj);
 
-            OnObjectMergeField(this, fieldHandler);
+            if (OnObjectMergeField == null) {
+                fieldHandler.MergeReplace();
+            } else {
+                OnObjectMergeField(this, fieldHandler);
+            }
 
             return fieldHandler.GetMergedString();
         }

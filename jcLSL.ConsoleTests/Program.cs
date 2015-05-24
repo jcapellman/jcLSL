@@ -32,7 +32,7 @@ namespace jcLSL.ConsoleTests {
 
             var gParser = new jcLSLGenericParser<TESTCLASS>();
 
-            gParser.OnObjectMergeField += GParser_OnObjectMergeField;
+         //   gParser.OnObjectMergeField += GParser_OnObjectMergeField;
             
             Console.WriteLine(
                 $"Original: {TEST_STRING} {System.Environment.NewLine} Parsed: {gParser.Run(TEST_STRING, testClass)} {System.Environment.NewLine}");

@@ -13,7 +13,7 @@ namespace jcLSL.PCL.MergeFieldArgs {
             if (IsNull) {
                 return;
             }
-
+            
             _mergeFieldString = _mergeFieldString.Replace($"{PREFIX}{mergeField}{SUFFIX}", mergeValue);
         }
     }
