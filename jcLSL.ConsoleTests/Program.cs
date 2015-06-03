@@ -13,7 +13,7 @@ namespace jcLSL.ConsoleTests {
             [jcLSLMember]
             public string Name { get; set; }
 
-            [jcLSLMember]
+            [jcLSLMember(Name="Current Date")]
             public DateTime CurrentDate { get; set; }
         }
 
