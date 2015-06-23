@@ -1,4 +1,7 @@
-﻿using System.Reflection;
+﻿using System.Collections.Concurrent;
+using System.Reflection;
+using System.Threading.Tasks;
+using jcLSL.PCL.Common;
 
 namespace jcLSL.PCL.MergeFieldArgs {
     public class jcLSLObjectMergeFieldArgs<T> : jcLSLBaseMergeFieldArgs {
@@ -18,17 +21,21 @@ namespace jcLSL.PCL.MergeFieldArgs {
 
             var properties = _obj.GetType().GetRuntimeProperties();
 
-            foreach (var prop in properties) {
+            var val = new ConcurrentString();
+
+            Parallel.ForEach(properties, prop => {
                 if (_parseOnlyDecoratedProperties) {
                     var attribute = prop.GetCustomAttribute<jcLSLMemberAttribute>();
 
                     if (attribute == null) {
-                        continue;
+                        return;
                     }
                 }
+                
+                val.SetValue(val.GetValue().Replace($"{PREFIX}{prop.Name}{SUFFIX}", prop.GetValue(_obj).ToString()));
+            });
 
-                _mergeFieldString = _mergeFieldString.Replace($"{PREFIX}{prop.Name}{SUFFIX}", prop.GetValue(_obj).ToString());
-            }
+            _mergeFieldString = val.GetValue();
         }
     }
 }
