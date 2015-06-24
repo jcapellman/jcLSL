@@ -1,8 +1,9 @@
 ﻿using System    ;
 using System.Collections.Generic;
 using System.Globalization;
-
+using System.Threading.Tasks;
 using jcLSL.PCL;
+using jcLSL.PCL.Common;
 using jcLSL.PCL.MergeFieldArgs;
 
 namespace jcLSL.ConsoleTests {
@@ -18,24 +19,38 @@ namespace jcLSL.ConsoleTests {
         }
 
         static void Main(string[] args) {
-            var parser = new jcLSLStringParser();
+         //   var parser = new jcLSLStringParser();
 
-            parser.OnStringMergeField += Parser_OnMergeField;
+         //   parser.OnStringMergeField += Parser_OnMergeField;
 
-            Console.WriteLine(
-                $"Original: {TEST_STRING} {System.Environment.NewLine} Parsed: {parser.Run(TEST_STRING)} {System.Environment.NewLine}");
+         //   Console.WriteLine(
+         //       $"Original: {TEST_STRING} {System.Environment.NewLine} Parsed: {parser.Run(TEST_STRING)} {System.Environment.NewLine}");
 
-            var testClass = new TESTCLASS();
+         //   var testClass = new TESTCLASS();
 
-            testClass.CurrentDate = DateTime.Now;
-            testClass.Name = "Testing";
+         //   testClass.CurrentDate = DateTime.Now;
+         //   testClass.Name = "Testing";
 
-            var gParser = new jcLSLGenericParser<TESTCLASS>();
+         //   var gParser = new jcLSLGenericParser<TESTCLASS>();
 
-         //   gParser.OnObjectMergeField += GParser_OnObjectMergeField;
+         ////   gParser.OnObjectMergeField += GParser_OnObjectMergeField;
             
-            Console.WriteLine(
-                $"Original: {TEST_STRING} {System.Environment.NewLine} Parsed: {gParser.Run(TEST_STRING, testClass)} {System.Environment.NewLine}");
+         //   Console.WriteLine(
+         //       $"Original: {TEST_STRING} {System.Environment.NewLine} Parsed: {gParser.Run(TEST_STRING, testClass)} {System.Environment.NewLine}");
+
+            var items = new List<string>();
+
+            for (var x = 0; x < 100; x++) {
+                items.Add(x.ToString());
+            }
+
+            ConcurrentString tmp = new ConcurrentString();
+
+            Parallel.ForEach(items, item => {
+                tmp += new ConcurrentString(item);
+            });
+
+            Console.WriteLine(tmp.GetValue());
 
             Console.ReadKey();
         }
